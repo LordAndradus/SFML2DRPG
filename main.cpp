@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	{
 		game.DEBUG_MODE = stringCompare("DEBUGGER", argv[1]) == 0;
 
-		if (game.DEBUG_MODE) printf("DEBUG MODE IS ENABLED");
+		if (game.DEBUG_MODE) printf("DEBUG MODE IS ENABLED\n");
 	}
 
 	game.run();

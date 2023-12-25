@@ -1,18 +1,13 @@
 #include "Game.h"
 
-#include <filesystem>
-
-namespace fs = filesystem;
-
 //Initializer
 void Game::initGameWindow()
 {
-REDO_INIT_GAME:
 	ifstream ifs("Config/Window.ini");
 
 	if (!ifs.is_open())
 	{
-		fs::create_directory("Config");
+		filesystem::create_directory("Config");
 
 		ofstream ofs("Config/Window.ini");
 
@@ -59,8 +54,6 @@ void Game::initStates()
 	this->states.push(new GameState(this->window));
 }
 
-
-
 //Construtor/Destructor
 Game::Game()
 {
@@ -79,6 +72,12 @@ Game::~Game()
 	}
 }
 
+void Game::endApplication()
+{
+	printf("Ending application.\n");
+}
+
+//Game Loop
 void Game::updateDt()
 {
 	//Measures how long it takes for one frame to be generated using dt
@@ -88,7 +87,6 @@ void Game::updateDt()
 	//printf("%f\n", this->dt);
 }
 
-//Game Loop
 void Game::updateSFMLEvents()
 {
 	while (this->window->pollEvent(this->sfEvent))
@@ -102,7 +100,23 @@ void Game::update()
 	this->updateSFMLEvents();
 
 	if (!this->states.empty())
+	{
 		this->states.top()->update(this->dt);
+
+		if (this->states.top()->getQuit())
+		{
+			//TODO: Do stuff before quitting state
+			this->states.top()->endState();
+			delete this->states.top();
+			this->states.pop();
+		}
+	}
+	//End of application
+	else
+	{
+		this->endApplication();
+		this->window->close();
+	}
 }
 
 void Game::render()

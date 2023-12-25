@@ -14,11 +14,18 @@ public:
 
 	bool DEBUG_MODE = 0;
 
-	//Game Loop
+	//Regulator
+	void endApplication();
+
+	//Updates
 	void updateDt();
 	void updateSFMLEvents();
 	void update();
+
+	//Render
 	void render();
+
+	//Core loop
 	void run();
 
 private:
