@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMESTATE_H
+#define GAMESTATE_H
 
 #include "State.h"
 
@@ -6,6 +7,7 @@ class GameState :
     public State
 {
 private:
+    Entity player;
 
 public:
     GameState(sf::RenderWindow* window);
@@ -18,3 +20,4 @@ public:
     void render(sf::RenderTarget* target = nullptr);
 };
 
+#endif

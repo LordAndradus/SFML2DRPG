@@ -1,24 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include <filesystem>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include <string>
-
-#include <stack>
-#include <map>
-
-#include <SFML\Network.hpp>
-#include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
-#include <SFML\Window.hpp>
-#include <SFML\Audio.hpp>
+#include "Entity.h"
 
 using namespace std;
 
@@ -38,10 +21,12 @@ public:
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 
-private:
+protected:
 	sf::RenderWindow* window;
 	vector<sf::Texture*> textures;
 	bool quit;
+
+private:
 };
 
 #endif

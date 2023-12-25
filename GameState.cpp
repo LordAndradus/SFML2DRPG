@@ -1,6 +1,3 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
-
 #include "GameState.h"
 
 GameState::GameState(sf::RenderWindow* window)
@@ -28,12 +25,17 @@ void GameState::update(const float& dt)
 {
 	this->updateKeybinds(dt);
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) printf("A\n");
+	this->player.update(dt);
 }
 
 void GameState::render(sf::RenderTarget* target)
 {
-
+	if (target)
+	{
+		printf("Target exists!\n");
+	}
+	else
+	{
+		this->player.render(this->window);
+	}
 }
-
-#endif
