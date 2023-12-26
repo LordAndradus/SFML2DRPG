@@ -3,9 +3,6 @@
 
 #include "State.h"
 
-#include <shlobj.h>
-#include <shlwapi.h>
-
 class GameState :
     public State
 {

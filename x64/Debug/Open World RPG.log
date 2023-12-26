@@ -1,6 +1,4 @@
-﻿  Game.cpp
-C:\Users\Lord Andradus\Desktop\HomeWork\(1) - Personal Project\Open World RPG\Open World RPG\Game.cpp(162,34): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  LINK : C:\Users\Lord Andradus\Desktop\HomeWork\(1) - Personal Project\Open World RPG\x64\Debug\Open World RPG.exe not found or not built by the last incremental link; performing full link
+﻿  Entity.cpp
 sfml-graphics-s-d.lib(Transformable.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Transformable.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(Shape.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Shape.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(RectangleShape.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(RectangleShape.obj)' or at ''; linking object as if no debug info

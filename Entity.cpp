@@ -4,7 +4,7 @@ Entity::Entity()
 {
 	this->shape.setSize(sf::Vector2f(50.0f, 50.0f));
 	this->shape.setFillColor(sf::Color::White);
-	this->movementSpeed = 100.0f;
+	this->movementSpeed = 500.0f;
 	this->shape.setPosition(sf::Vector2f((float)1920 / 2, (float)1080 / 2));
 }
 

@@ -65,7 +65,7 @@ GameState::~GameState()
 
 void GameState::endState()
 {
-	printf("GateState is ending\n");
+	printf("GameState is ending\n");
 }
 
 void GameState::updateInput(const float& dt)
@@ -74,6 +74,7 @@ void GameState::updateInput(const float& dt)
 
 #define MOVE_PARAM(s) if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at(s))))
 #define MOVE_COORD(x, y) this->player.move(dt, x, y)
+
 	//Update player input
 	MOVE_PARAM("MOVE_LEFT")
 	{

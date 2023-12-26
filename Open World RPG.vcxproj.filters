@@ -20,7 +20,7 @@
       <UniqueIdentifier>{133bebbb-d202-44b9-9667-132264346f33}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utilities">
-      <UniqueIdentifier>{680a7e89-8087-4c7e-a3a3-2025911c7981}</UniqueIdentifier>
+      <UniqueIdentifier>{aa737bca-f8ae-4406-b21d-e5266efc8240}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,28 +30,34 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
     <ClCompile Include="GameState.cpp">
+      <Filter>State</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
       <Filter>State</Filter>
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>State</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
     <ClInclude Include="GameState.h">
+      <Filter>State</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
       <Filter>State</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>State</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
