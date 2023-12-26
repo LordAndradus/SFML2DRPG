@@ -1,33 +1,18 @@
 #include "Game.h"
 
-//Initializer
+#include <shlobj.h>
+#include <shlwapi.h>
+
+
+
+//Initializers
 void Game::initGameWindow()
 {
-	ifstream ifs("Config/Window.ini");
-
-	if (!ifs.is_open())
-	{
-		filesystem::create_directory("Config");
-
-		ofstream ofs("Config/Window.ini");
-
-		if (ofs.is_open())
-		{
-			ofs << "2D RPG" << endl;
-			ofs << 1920 << " " << 1080 << endl;
-			ofs << 144 << endl;
-			ofs << false << endl;
-
-			ifs.open("Config/Window.ini");
-		}
-		else
-		{
-			printf("File could not be created.\n");
-		}
-	}
+	ifstream ifs;
+	ifs.open(loadWindowINI().c_str());
 
 	string title = "None";
-	sf::VideoMode window_bounds(1920, 1080);
+	sf::VideoMode window_bounds(60, 60);
 	unsigned framerate_limit = 144;
 	bool vertical_sync_enabled = false;
 
@@ -49,15 +34,78 @@ void Game::initGameWindow()
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
+string Game::loadWindowINI()
+{
+	string path;
+
+	char szPath[MAX_PATH + 1] = {};
+	if (SHGetFolderPathA(NULL, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, szPath) == S_OK)
+	{
+		path = szPath;
+		path += '\\';
+	}
+
+#define iniString iniPath.c_str()
+
+	path += "2D_RPG_GAME\\";
+	string iniPath = path + "Window.ini";
+
+	ifstream ifs(iniString);
+
+	if (!ifs.is_open())
+	{
+		filesystem::create_directory(path);
+
+		printf("Path created: %s\n", path.c_str());
+
+		ofstream ofs(iniString);
+
+		if (ofs.is_open())
+		{
+			ofs << "2D RPG" << endl;
+			ofs << 1920 << " " << 1080 << endl;
+			ofs << 144 << endl;
+			ofs << false << endl;
+
+			ifs.open(iniString);
+		}
+		else
+		{
+			printf("File could not be created.\n");
+		}
+	}
+
+#undef docString
+
+	return iniPath;
+}
+
+void Game::initKeys()
+{
+#define kType sf::Keyboard::Key
+	this->supportedKeys["Escape"] = kType::Escape;
+	this->supportedKeys["A"] = kType::A;
+	this->supportedKeys["D"] = kType::D;
+	this->supportedKeys["W"] = kType::W;
+	this->supportedKeys["S"] = kType::S;
+
+	//DEBUG
+	for (auto i : this->supportedKeys) cout << "Key: " << i.first << " | ID: " << i.second << "\n";
+#undef kType
+}
+
 void Game::initStates()
 {
-	this->states.push(new GameState(this->window));
+	this->states.push(new GameState(this->window, &this->supportedKeys));
 }
 
 //Construtor/Destructor
 Game::Game()
 {
 	this->initGameWindow();
+
+	this->initKeys();
+
 	this->initStates();
 }
 

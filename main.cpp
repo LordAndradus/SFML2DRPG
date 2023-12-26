@@ -1,16 +1,7 @@
 #include "Game.h"
 
-int stringCompare(const char* password, char* userInput)
-{
-	int i = 0;
-	for (i = 0; userInput[i] != '\0' && password[i] != '\0'; i++)
-	{
-		if (userInput[i] != password[i]) break;
-	}
-
-	return userInput[i] - password[i];
-}
-
+//This makes it, so that the release exe does not open the Windows console.
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 int main(int argc, char* argv[])
 {
@@ -18,7 +9,7 @@ int main(int argc, char* argv[])
 
 	if (argc >= 2)
 	{
-		game.DEBUG_MODE = stringCompare("DEBUGGER", argv[1]) == 0;
+		game.DEBUG_MODE = strcmp("DEBUGGER", argv[1]) == 0;
 
 		if (game.DEBUG_MODE) printf("DEBUG MODE IS ENABLED\n");
 	}

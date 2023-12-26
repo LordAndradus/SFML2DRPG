@@ -5,6 +5,7 @@ Entity::Entity()
 	this->shape.setSize(sf::Vector2f(50.0f, 50.0f));
 	this->shape.setFillColor(sf::Color::White);
 	this->movementSpeed = 100.0f;
+	this->shape.setPosition(sf::Vector2f((float)1920 / 2, (float)1080 / 2));
 }
 
 Entity::~Entity()
@@ -14,22 +15,7 @@ Entity::~Entity()
 
 void Entity::update(const float& dt)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		this->move(dt, 0.0f, -1.0f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		this->move(dt, -1.0f, 0.0f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		this->move(dt, 0.0f, 1.0f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		this->move(dt, 1.0f, 0.0f);
-	}
+	
 }
 
 void Entity::render(sf::RenderTarget* target)

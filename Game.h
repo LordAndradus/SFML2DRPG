@@ -39,10 +39,13 @@ private:
 
 	stack<State*> states;
 
+	map<string, int> supportedKeys;
+
 	//Initializers
 	void initGameWindow();
 	void initStates();
-	bool loadWindowINI();
+	void initKeys();
+	string loadWindowINI();
 };
 
 #endif

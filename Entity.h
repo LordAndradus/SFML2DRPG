@@ -1,6 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#define NOMINMAX
+#include <Windows.h>
 #include <filesystem>
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,6 +22,8 @@
 #include <SFML\Window.hpp>
 #include <SFML\Audio.hpp>
 
+using namespace std;
+
 class Entity
 {
 public:
@@ -33,6 +37,7 @@ public:
 
 protected:
 	sf::RectangleShape shape;
+	map<string, int> *supportedKeys;
 	float movementSpeed;
 
 private:
