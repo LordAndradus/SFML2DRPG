@@ -1,10 +1,6 @@
-﻿  Game.cpp
-C:\Users\Lord Andradus\Desktop\HomeWork\(1) - Personal Project\Open World RPG\Open World RPG\Game.cpp(104,34): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  GameState.cpp
-  main.cpp
-  State.cpp
+﻿  main.cpp
   Generating code
   Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 528 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 578 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   Open World RPG.vcxproj -> C:\Users\Lord Andradus\Desktop\HomeWork\(1) - Personal Project\Open World RPG\x64\Release\Open World RPG.exe

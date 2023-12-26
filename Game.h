@@ -45,7 +45,9 @@ private:
 	void initGameWindow();
 	void initStates();
 	void initKeys();
-	string loadWindowINI();
+
+	//Utilities
+	string openINI(const char* file);
 };
 
 #endif

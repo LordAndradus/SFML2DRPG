@@ -1,15 +1,62 @@
 #include "Game.h"
 
-#include <shlobj.h>
-#include <shlwapi.h>
+//Utilities
+string Game::openINI(const char* file)
+{
+	string path;
 
+	char szPath[MAX_PATH + 1] = {};
+	if (SHGetFolderPathA(NULL, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, szPath) == S_OK)
+	{
+		path = szPath;
+		path += "\\2D_RPG_GAME\\";
+		filesystem::create_directory(path);
+	}
 
+#define iniString iniPath.c_str()
+
+	string iniPath = path + file;
+
+	ifstream ifs(iniString);
+
+	if (!ifs.is_open())
+	{
+		ofstream ofs(iniString);
+
+		if (ofs.is_open() && !strcmp("Window.ini", file))
+		{
+			ofs << "2D RPG" << endl;
+			ofs << 1920 << " " << 1080 << endl;
+			ofs << 144 << endl;
+			ofs << false << endl;
+		}
+		else if (ofs.is_open() && !strcmp("Keybind.ini", file))
+		{
+			ofs << "A 0" << endl;
+			ofs << "D 3" << endl;
+			ofs << "W 22" << endl;
+			ofs << "S 18" << endl;
+			ofs << "Escape 36" << endl;
+		}
+		else
+		{
+			printf("File for %s could not be created.\n", file);
+		}
+
+		ofs.flush();
+		ofs.close();
+	}
+
+#undef docString
+
+	return iniPath;
+}
 
 //Initializers
 void Game::initGameWindow()
 {
 	ifstream ifs;
-	ifs.open(loadWindowINI().c_str());
+	ifs.open(openINI("Window.ini").c_str());
 
 	string title = "None";
 	sf::VideoMode window_bounds(60, 60);
@@ -24,6 +71,8 @@ void Game::initGameWindow()
 		ifs >> vertical_sync_enabled;
 	}
 
+	ifs.close();
+
 	printf("%s\n", title.c_str());
 	printf("Window Size: (%d, %d)\n", window_bounds.width, window_bounds.height);
 	printf("Framerate limit: %d\n", framerate_limit);
@@ -34,64 +83,25 @@ void Game::initGameWindow()
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
-string Game::loadWindowINI()
-{
-	string path;
-
-	char szPath[MAX_PATH + 1] = {};
-	if (SHGetFolderPathA(NULL, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, szPath) == S_OK)
-	{
-		path = szPath;
-		path += '\\';
-	}
-
-#define iniString iniPath.c_str()
-
-	path += "2D_RPG_GAME\\";
-	string iniPath = path + "Window.ini";
-
-	ifstream ifs(iniString);
-
-	if (!ifs.is_open())
-	{
-		filesystem::create_directory(path);
-
-		printf("Path created: %s\n", path.c_str());
-
-		ofstream ofs(iniString);
-
-		if (ofs.is_open())
-		{
-			ofs << "2D RPG" << endl;
-			ofs << 1920 << " " << 1080 << endl;
-			ofs << 144 << endl;
-			ofs << false << endl;
-
-			ifs.open(iniString);
-		}
-		else
-		{
-			printf("File could not be created.\n");
-		}
-	}
-
-#undef docString
-
-	return iniPath;
-}
-
 void Game::initKeys()
 {
-#define kType sf::Keyboard::Key
-	this->supportedKeys["Escape"] = kType::Escape;
-	this->supportedKeys["A"] = kType::A;
-	this->supportedKeys["D"] = kType::D;
-	this->supportedKeys["W"] = kType::W;
-	this->supportedKeys["S"] = kType::S;
+	ifstream ifs(openINI("Keybind.ini"));
+
+	if (ifs.is_open())
+	{
+		string key = "";
+		int keyVal = 0;
+
+		while (ifs >> key >> keyVal)
+		{
+			this->supportedKeys[key] = keyVal;
+		}
+
+		ifs.close();
+	}
 
 	//DEBUG
 	for (auto i : this->supportedKeys) cout << "Key: " << i.first << " | ID: " << i.second << "\n";
-#undef kType
 }
 
 void Game::initStates()

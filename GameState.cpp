@@ -2,12 +2,54 @@
 
 void GameState::initKeybinds()
 {
-#define putMap(x, y) this->keybinds[x] = this->supportedKeys->at(y)
-	putMap("MOVE_LEFT", "A");
-	putMap("MOVE_RIGHT", "D");
-	putMap("MOVE_UP", "W");
-	putMap("MOVE_DOWN", "S");
-#undef putMap
+	string path;
+
+	char szPath[MAX_PATH + 1] = {};
+	if (SHGetFolderPathA(NULL, CSIDL_MYDOCUMENTS, NULL, SHGFP_TYPE_CURRENT, szPath) == S_OK)
+	{
+		path = szPath;
+		path += "\\2D_RPG_GAME\\";
+	}
+
+	string iniPath = path + "GameState_Keybind.ini";
+
+	ifstream ifs(iniPath);
+
+	if (!ifs.is_open())
+	{
+		ofstream ofs(iniPath);
+
+		if (ofs.is_open())
+		{
+			ofs << "QUIT Escape" << endl;
+			ofs << "MOVE_UP W" << endl;
+			ofs << "MOVE_DOWN S" << endl;
+			ofs << "MOVE_LEFT A" << endl;
+			ofs << "MOVE_RIGHT D" << endl;
+
+			ifs.open(iniPath);
+		}
+		else
+		{
+			printf("File for %s could not be created.\n", iniPath.c_str());
+		}
+
+		ofs.flush();
+		ofs.close();
+	}
+
+	if (ifs.is_open())
+	{
+		string keyAction = "";
+		string keyLetter = "";
+
+		while (ifs >> keyAction >> keyLetter)
+		{
+			this->keybinds[keyAction] = this->supportedKeys->at(keyLetter);
+		}
+
+		ifs.close();
+	}
 }
 
 GameState::GameState(sf::RenderWindow* window, map<string, int>* supportedKeys)
