@@ -1,6 +1,23 @@
 #include "MainMenuState.h"
 #include "Button.h"
 
+void MainMenuState::initVariables()
+{
+
+}
+
+void MainMenuState::initBackground()
+{
+	this->background.setSize(sf::Vector2f(
+	static_cast<float> (this->window->getSize().x), 
+	static_cast<float> (this->window->getSize().y)));
+
+	if (!this->backgroundTexture.loadFromFile("Backgrounds/Main Menu.png"))
+		throw("ERROR::MAINMENMUSTATE::FAILED to load texture \"Backgrounds/Main Menu.png\"");
+	
+	this->background.setTexture(&this->backgroundTexture);
+}
+
 void MainMenuState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/arial.ttf"))
@@ -59,22 +76,24 @@ void MainMenuState::initKeybinds()
 
 void MainMenuState::initButtons()
 {
-	this->buttons["GAME_STATE"] = new Button(100, 100, 150, 50, &this->font,
+	this->buttons["GAME_STATE"] = new Button(450, 500, 300, 100, &this->font,
 		"New Game", sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));	
 	
-	this->buttons["QUIT_STATE"] = new Button(100, 300, 150, 50, &this->font,
+	this->buttons["SETTINGS_STATE"] = new Button(450, 650, 300, 100, &this->font,
+		"Settings", sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+
+	this->buttons["QUIT_STATE"] = new Button(450, 800, 300, 100, &this->font,
 		"Quit", sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 }
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, map<string, int>* supportedKeys, stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
+	this->initVariables();
+	this->initBackground();
 	this->initFonts();
 	this->initKeybinds();
 	this->initButtons();
-
-	this->background.setSize(sf::Vector2f((float)window->getSize().x, (float)window->getSize().y));
-	this->background.setFillColor(sf::Color::Magenta);
 }
 
 MainMenuState::~MainMenuState()
@@ -147,6 +166,17 @@ void MainMenuState::render(sf::RenderTarget* target)
 	target->draw(this->background);
 
 	this->renderButtons(target);
+
+	sf::Text mouseText;
+	mouseText.setPosition(sf::Vector2f(mousePosView.x + 20, mousePosView.y - 20));
+	mouseText.setFont(this->font);
+	mouseText.setCharacterSize(24);
+
+	stringstream ss;
+	ss << "(" << this->mousePosView.x << ", " << this->mousePosView.y << ")" << endl;
+	mouseText.setString(ss.str());
+
+	target->draw(mouseText);
 }
 
 void MainMenuState::renderButtons(sf::RenderTarget* target)

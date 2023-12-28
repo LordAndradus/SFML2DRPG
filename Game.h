@@ -32,6 +32,9 @@ private:
 	//Hidden variables
 	sf::RenderWindow *window;
 	sf::Event sfEvent;
+	vector<sf::VideoMode> videoModes;
+	sf::ContextSettings windowSettings;
+	bool fullscreen;
 
 	//Frame rendering variables
 	sf::Clock dtClock;
@@ -42,6 +45,7 @@ private:
 	map<string, int> supportedKeys;
 
 	//Initializers
+	void initVariables();
 	void initGameWindow();
 	void initStates();
 	void initKeys();

@@ -27,8 +27,11 @@ string Game::openINI(const char* file)
 		{
 			ofs << "2D RPG" << endl;
 			ofs << 1920 << " " << 1080 << endl;
+			ofs << 0 << endl;
+			ofs << 0 << endl;
 			ofs << 144 << endl;
 			ofs << false << endl;
+			ofs << 0 << endl;
 		}
 		else if (ofs.is_open() && !strcmp("Keybind.ini", file))
 		{
@@ -52,23 +55,35 @@ string Game::openINI(const char* file)
 	return iniPath;
 }
 
+void Game::initVariables()
+{
+	this->window = NULL;
+	this->fullscreen = false;
+	this->dt = 0.0f;
+}
+
 //Initializers
 void Game::initGameWindow()
 {
 	ifstream ifs;
 	ifs.open(openINI("Window.ini").c_str());
 
+	this->videoModes = sf::VideoMode::getFullscreenModes();
+
 	string title = "None";
 	sf::VideoMode window_bounds(60, 60);
 	unsigned framerate_limit = 144;
 	bool vertical_sync_enabled = false;
+	unsigned antialiasingLevel = 0;
 
 	if (ifs.is_open())
 	{
 		getline(ifs, title);
 		ifs >> window_bounds.width >> window_bounds.height;
+		ifs >> this->fullscreen;
 		ifs >> framerate_limit;
 		ifs >> vertical_sync_enabled;
+		ifs >> antialiasingLevel;
 	}
 
 	ifs.close();
@@ -77,8 +92,16 @@ void Game::initGameWindow()
 	printf("Window Size: (%d, %d)\n", window_bounds.width, window_bounds.height);
 	printf("Framerate limit: %d\n", framerate_limit);
 	printf("Vertical sync? %d\n", vertical_sync_enabled);
+	printf("Fullscreen enabled? %s\n", (this->fullscreen ? "True" : "False"));
+	printf("Anti-aliasing level: %d\n", antialiasingLevel);
 
-	this->window = new sf::RenderWindow(window_bounds, title);
+	if (this->fullscreen) window_bounds = sf::VideoMode::getDesktopMode();
+
+	this->windowSettings.antialiasingLevel = antialiasingLevel;
+	if (this->fullscreen)
+		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Fullscreen, this->windowSettings);
+	else
+		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Default | sf::Style::Titlebar | sf::Style::Close, this->windowSettings);
 	this->window->setFramerateLimit(framerate_limit);
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
@@ -113,6 +136,8 @@ void Game::initStates()
 //Construtor/Destructor
 Game::Game()
 {
+	this->initVariables();
+
 	this->initGameWindow();
 
 	this->initKeys();
