@@ -15,7 +15,7 @@ public:
 
 	const bool& getQuit() const;
 
-	virtual void checkForQuit();
+	virtual void checkForQuit() = 0;
 	
 	virtual void endState() = 0;
 	virtual void updateMousePositions();
