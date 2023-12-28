@@ -12,8 +12,8 @@ void MainMenuState::initBackground()
 	static_cast<float> (this->window->getSize().x), 
 	static_cast<float> (this->window->getSize().y)));
 
-	if (!this->backgroundTexture.loadFromFile("Backgrounds/Main Menu.png"))
-		throw("ERROR::MAINMENMUSTATE::FAILED to load texture \"Backgrounds/Main Menu.png\"");
+	if (!this->backgroundTexture.loadFromFile("Resources/Images/Backgrounds/Main Menu.png"))
+		throw("ERROR::MAINMENMUSTATE::FAILED to load texture \"Resources/Images/Backgrounds/Main Menu.png\"");
 	
 	this->background.setTexture(&this->backgroundTexture);
 }
@@ -105,14 +105,9 @@ MainMenuState::~MainMenuState()
 	}
 }
 
-void MainMenuState::endState()
-{
-	printf("MainMenuState is ending\n");
-}
-
 void MainMenuState::updateInput(const float& dt)
 {
-	this->checkForQuit();
+	
 }
 
 void MainMenuState::update(const float& dt)
@@ -151,7 +146,7 @@ void MainMenuState::updateButtons()
 	}
 
 	//Handles the functionalities
-	if (this->buttons["QUIT_STATE"]->isActive()) this->quit = true;
+	if (this->buttons["QUIT_STATE"]->isActive()) this->endState();
 
 	if (this->buttons["GAME_STATE"]->isActive())
 	{

@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-#include "Entity.h"
+#include "Player.h"
 
 #include <shlobj.h>
 #include <shlwapi.h>
@@ -14,10 +14,8 @@ public:
 	virtual ~State();
 
 	const bool& getQuit() const;
-
-	virtual void checkForQuit() = 0;
+	virtual void endState();
 	
-	virtual void endState() = 0;
 	virtual void updateMousePositions();
 	virtual void updateInput(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;
@@ -36,7 +34,7 @@ protected:
 	sf::Vector2f mousePosView; //Tracks the camera in the game world. It can far exceed the screen position.
 
 	//Resources
-	vector<sf::Texture*> textures;
+	map<string, sf::Texture> textures;
 
 	virtual void initKeybinds() = 0;
 private:

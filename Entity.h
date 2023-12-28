@@ -30,18 +30,23 @@ public:
 	Entity();
 	virtual ~Entity();
 
+	//Component Functions
+	void createSprite(sf::Texture* texture);
+
+	//Core Functions
 	virtual void update(const float& dt);
 	virtual void render(sf::RenderTarget* target);
 
+	virtual void setPosition(const float x, const float y);
 	virtual void move(const float& dt, const float x, const float y);
 
 protected:
-	sf::RectangleShape shape;
-	map<string, int> *supportedKeys;
+	sf::Texture* texture;
+	sf::Sprite* sprite;
 	float movementSpeed;
 
 private:
-
+	void initVariables();
 };
 
 #endif

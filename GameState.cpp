@@ -52,28 +52,36 @@ void GameState::initKeybinds()
 	}
 }
 
+void GameState::initTextures()
+{
+	if (!this->textures["PLAYER_IDLE"].loadFromFile("Resources/Images/Sprites/Player/Test.png"))
+		throw("ERROR::GAMESTATE::COULD_NOT_LOAD_PLAYER_TEXTURE");
+}
+
+void GameState::initPlayer()
+{
+	this->player = new Player(window->getPosition().x / 2, window->getPosition().y / 2, &this->textures["PLAYER_IDLE"]);
+}
+
+//Constructor & Destructor
 GameState::GameState(sf::RenderWindow* window, map<string, int>* supportedKeys, stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
 	this->initKeybinds();
+	this->initTextures();
+	this->initPlayer();
 }
 
 GameState::~GameState()
 {
-	
-}
-
-void GameState::endState()
-{
-	printf("GameState is ending\n");
+	delete this->player;
 }
 
 void GameState::updateInput(const float& dt)
 {
-	this->checkForQuit();
 
 #define MOVE_PARAM(s) if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at(s))))
-#define MOVE_COORD(x, y) this->player.move(dt, x, y)
+#define MOVE_COORD(x, y) this->player->move(dt, x, y)
 
 	//Update player input
 	MOVE_PARAM("MOVE_LEFT")
@@ -96,6 +104,8 @@ void GameState::updateInput(const float& dt)
 		MOVE_COORD(0.f, 1.f);
 	}
 
+	MOVE_PARAM("QUIT") this->endState();
+
 #undef MOVE_PARAM
 #undef MOVE_COORD
 }
@@ -105,12 +115,12 @@ void GameState::update(const float& dt)
 	this->updateMousePositions();
 	this->updateInput(dt);
 	
-	this->player.update(dt);
+	this->player->update(dt);
 }
 
 void GameState::render(sf::RenderTarget* target)
 {
 	if (!target) target = this->window;
 
-	this->player.render(target);
+	this->player->render(target);
 }
