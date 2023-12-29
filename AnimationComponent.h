@@ -93,6 +93,7 @@ private:
 	sf::Sprite& sprite;
 	sf::Texture& textureSheet;
 	map<string, Animation*> animations;
+	Animation* lastAnimation;
 };
 
 #endif
