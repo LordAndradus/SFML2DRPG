@@ -23,8 +23,10 @@ enum state {
 class Button
 {
 public:
-	Button(float x, float y, float width, float height, sf::Font* font, 
-	string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
+	Button(float x, float y, float width, float height, 
+	sf::Font* font, string text, unsigned fontSize,
+	sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
+	sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
 	virtual ~Button();
 
 	//Accessors
@@ -46,6 +48,10 @@ private:
 	sf::Color idleColor;
 	sf::Color hoverColor;
 	sf::Color activeColor;
+
+	sf::Color textIdleColor;
+	sf::Color textHoverColor;
+	sf::Color textActiveColor;
 };
 
 #endif

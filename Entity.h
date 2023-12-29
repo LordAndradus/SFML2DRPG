@@ -1,26 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#define NOMINMAX
-#include <Windows.h>
-#include <filesystem>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <fstream>
-#include <sstream>
-#include <string>
-
-#include <stack>
-#include <map>
-
-#include <SFML\Network.hpp>
-#include <SFML\Graphics.hpp>
-#include <SFML\System.hpp>
-#include <SFML\Window.hpp>
-#include <SFML\Audio.hpp>
+#include "MovementComponent.h"
+#include "AnimationComponent.h"
 
 using namespace std;
 
@@ -31,7 +13,9 @@ public:
 	virtual ~Entity();
 
 	//Component Functions
-	void createSprite(sf::Texture* texture);
+	void setTexture(sf::Texture& texture);
+	void createMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
+	void createAnimationComponent(sf::Texture& textureSheet);
 
 	//Core Functions
 	virtual void update(const float& dt);
@@ -41,9 +25,10 @@ public:
 	virtual void move(const float& dt, const float x, const float y);
 
 protected:
-	sf::Texture* texture;
-	sf::Sprite* sprite;
-	float movementSpeed;
+	sf::Sprite sprite;
+	
+	MovementComponent* movementComponent;
+	AnimationComponent* animationComponent;
 
 private:
 	void initVariables();

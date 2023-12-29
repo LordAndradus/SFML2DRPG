@@ -76,14 +76,34 @@ void MainMenuState::initKeybinds()
 
 void MainMenuState::initButtons()
 {
-	this->buttons["GAME_STATE"] = new Button(450, 500, 300, 100, &this->font,
-		"New Game", sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));	
-	
-	this->buttons["SETTINGS_STATE"] = new Button(450, 650, 300, 100, &this->font,
-		"Settings", sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+#define bWidth 300
+#define bHeight 75
+#define colorI	sf::Color(70, 70, 70, 0)
+#define colorH	sf::Color(150, 150, 150, 0)
+#define colorA	sf::Color(20, 20, 20, 0)
+#define textI	sf::Color(70, 70, 70, 200)
+#define textH	sf::Color(250, 250, 250, 250)
+#define textA	sf::Color(20, 20, 20, 50)
 
-	this->buttons["QUIT_STATE"] = new Button(450, 800, 300, 100, &this->font,
-		"Quit", sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+#define buttonMake(x, y, s, fs) new Button(x, y, bWidth, bHeight, &this->font, s, fs, textI, textH, textA, colorI, colorH, colorA)
+
+	this->buttons["GAME_STATE"] = buttonMake(450, 500, "New Game", 24);
+	
+	this->buttons["SETTINGS_STATE"] = buttonMake(450, 600, "Settings", 24);
+
+	this->buttons["EDITOR_STATE"] = buttonMake(450, 700, "Editor", 24);
+
+	this->buttons["QUIT_STATE"] = buttonMake(450, 800, "Quit", 24);
+
+#undef bWidth
+#undef bHeight
+#undef colorI
+#undef colorH
+#undef colorA
+#undef textI
+#undef textH
+#undef textA
+#undef buttonMake
 }
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, map<string, int>* supportedKeys, stack<State*>* states)

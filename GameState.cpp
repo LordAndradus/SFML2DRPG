@@ -54,13 +54,13 @@ void GameState::initKeybinds()
 
 void GameState::initTextures()
 {
-	if (!this->textures["PLAYER_IDLE"].loadFromFile("Resources/Images/Sprites/Player/Test.png"))
+	if (!this->textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/Player Spritesheet.png"))
 		throw("ERROR::GAMESTATE::COULD_NOT_LOAD_PLAYER_TEXTURE");
 }
 
 void GameState::initPlayer()
 {
-	this->player = new Player(window->getPosition().x / 2, window->getPosition().y / 2, &this->textures["PLAYER_IDLE"]);
+	this->player = new Player(window->getPosition().x / 2, window->getPosition().y / 2, this->textures["PLAYER_SHEET"]);
 }
 
 //Constructor & Destructor
@@ -82,26 +82,27 @@ void GameState::updateInput(const float& dt)
 
 #define MOVE_PARAM(s) if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at(s))))
 #define MOVE_COORD(x, y) this->player->move(dt, x, y)
+#define moveAmount 1.f
 
 	//Update player input
 	MOVE_PARAM("MOVE_LEFT")
 	{
-		MOVE_COORD(-1.f, 0.f);
+		MOVE_COORD(-moveAmount, 0.f);
 	}	
 	
 	MOVE_PARAM("MOVE_RIGHT")
 	{
-		MOVE_COORD(1.f, 0.f);
+		MOVE_COORD(moveAmount, 0.f);
 	}	
 	
 	MOVE_PARAM("MOVE_UP")
 	{
-		MOVE_COORD(0.f, -1.f);
+		MOVE_COORD(0.f, -moveAmount);
 	}	
 	
 	MOVE_PARAM("MOVE_DOWN")
 	{
-		MOVE_COORD(0.f, 1.f);
+		MOVE_COORD(0.f, moveAmount);
 	}
 
 	MOVE_PARAM("QUIT") this->endState();

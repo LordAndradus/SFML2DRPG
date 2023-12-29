@@ -1,17 +1,20 @@
 #include "Button.h"
 
-Button::Button(float x, float y, float width, float height, sf::Font* font,
-	string text, sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor)
+Button::Button(float x, float y, float width, float height,
+	sf::Font* font, string text, unsigned fontSize, 
+	sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
+	sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor)
 {
 	this->buttonState = IDLE;
 	this->shape.setPosition(sf::Vector2f(x, y));
 	this->shape.setSize(sf::Vector2f(width, height));
+	this->shape.setFillColor(this->idleColor);
 	
 	this->font = font; 
 	this->text.setFont(*this->font);
 	this->text.setString(text);
 	this->text.setFillColor(sf::Color::White);
-	this->text.setCharacterSize(24);
+	this->text.setCharacterSize(fontSize);
 	this->text.setPosition(
 		this->shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
 		this->shape.getPosition().y + (shape.getGlobalBounds().height / 2.f) - this->text.getGlobalBounds().height / 2.f
@@ -21,7 +24,9 @@ Button::Button(float x, float y, float width, float height, sf::Font* font,
 	this->hoverColor = hoverColor;
 	this->activeColor = activeColor;
 
-	this->shape.setFillColor(this->idleColor);
+	this->textIdleColor = textIdleColor;
+	this->textHoverColor = textHoverColor;
+	this->textActiveColor = textActiveColor;
 }
 
 Button::~Button()
@@ -62,15 +67,19 @@ void Button::update(const sf::Vector2f mousePos)
 	{
 	case IDLE:
 		this->shape.setFillColor(this->idleColor);
+		this->text.setFillColor(this->textIdleColor);
 		break;
 	case HOVER:
 		this->shape.setFillColor(this->hoverColor);
+		this->text.setFillColor(this->textHoverColor);
 		break;
 	case ACTIVE:
 		this->shape.setFillColor(this->activeColor);
+		this->text.setFillColor(this->textActiveColor);
 		break;
 	default:
 		this->shape.setFillColor(sf::Color::Red);
+		this->text.setFillColor(sf::Color::Blue);
 		break;
 	}
 }
