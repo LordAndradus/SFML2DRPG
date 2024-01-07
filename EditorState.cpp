@@ -1,32 +1,30 @@
-#include "MainMenuState.h"
-#include "Button.h"
-
-void MainMenuState::initVariables()
+#include "EditorState.h"
+void EditorState::initVariables()
 {
 
 }
 
-void MainMenuState::initBackground()
+void EditorState::initBackground()
 {
-	this->background.setSize(sf::Vector2f(
+	/*this->background.setSize(sf::Vector2f(
 	static_cast<float> (this->window->getSize().x), 
 	static_cast<float> (this->window->getSize().y)));
 
 	if (!this->backgroundTexture.loadFromFile("Resources/Images/Backgrounds/Main Menu.png"))
 		throw("ERROR::MAINMENMUSTATE::FAILED to load texture \"Resources/Images/Backgrounds/Main Menu.png\"");
 	
-	this->background.setTexture(&this->backgroundTexture);
+	this->background.setTexture(&this->backgroundTexture);*/
 }
 
-void MainMenuState::initFonts()
+void EditorState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/arial.ttf"))
 	{
-		throw("ERROR::MAINMENUSTATE::COULDN'T LOAD FONT 'arial.tff'");
+		throw("ERROR::EditorState::COULDN'T LOAD FONT 'arial.tff'");
 	}
 }
 
-void MainMenuState::initKeybinds()
+void EditorState::initKeybinds()
 {
 	string path;
 
@@ -37,7 +35,7 @@ void MainMenuState::initKeybinds()
 		path += "\\2D_RPG_GAME\\";
 	}
 
-	string iniPath = path + "MainMenuState_Keybind.ini";
+	string iniPath = path + "EditorState_Keybind.ini";
 
 	ifstream ifs(iniPath);
 
@@ -74,7 +72,7 @@ void MainMenuState::initKeybinds()
 	}
 }
 
-void MainMenuState::initButtons()
+void EditorState::initButtons()
 {
 #define bWidth 300
 #define bHeight 75
@@ -87,13 +85,7 @@ void MainMenuState::initButtons()
 
 #define buttonMake(x, y, s, fs) new Button(x, y, bWidth, bHeight, &this->font, s, fs, textI, textH, textA, colorI, colorH, colorA)
 
-	this->buttons["GAME_STATE"] = buttonMake(450, 500, "New Game", 24);
 	
-	this->buttons["SETTINGS_STATE"] = buttonMake(450, 600, "Settings", 24);
-
-	this->buttons["EDITOR_STATE"] = buttonMake(450, 700, "Editor", 24);
-
-	this->buttons["QUIT_STATE"] = buttonMake(450, 800, "Quit", 24);
 
 #undef bWidth
 #undef bHeight
@@ -106,7 +98,7 @@ void MainMenuState::initButtons()
 #undef buttonMake
 }
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, map<string, int>* supportedKeys, stack<State*>* states)
+EditorState::EditorState(sf::RenderWindow* window, map<string, int>* supportedKeys, stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
 	this->initVariables();
@@ -116,7 +108,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, map<string, int>* support
 	this->initButtons();
 }
 
-MainMenuState::~MainMenuState()
+EditorState::~EditorState()
 {
 	auto i = this->buttons.begin();
 	for (i = i; i != this->buttons.end(); ++i)
@@ -125,12 +117,13 @@ MainMenuState::~MainMenuState()
 	}
 }
 
-void MainMenuState::updateInput(const float& dt)
+void EditorState::updateInput(const float& dt)
 {
-	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("QUIT"))))
+		this->endState();
 }
 
-void MainMenuState::update(const float& dt)
+void EditorState::update(const float& dt)
 {
 	this->updateMousePositions();
 	this->updateInput(dt);
@@ -157,30 +150,18 @@ void MainMenuState::update(const float& dt)
 	}
 }
 
-void MainMenuState::updateButtons()
+void EditorState::updateButtons()
 {
 	//Updates all buttons in the main menu
 	for (auto it : this->buttons)
 	{
 		it.second->update(this->mousePosView);
 	}
-
-	//Handles the functionalities
-	if (this->buttons["QUIT_STATE"]->isActive()) this->endState();
-
-	if (this->buttons["GAME_STATE"]->isActive())
-		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
-	
-	if (this->buttons["EDITOR_STATE"]->isActive())
-		this->states->push(new EditorState(this->window, this->supportedKeys, this->states));
-	
 }
 
-void MainMenuState::render(sf::RenderTarget* target)
+void EditorState::render(sf::RenderTarget* target)
 {
 	if (!target) target = this->window;
-
-	target->draw(this->background);
 
 	this->renderButtons(target);
 
@@ -196,7 +177,7 @@ void MainMenuState::render(sf::RenderTarget* target)
 	target->draw(mouseText);
 }
 
-void MainMenuState::renderButtons(sf::RenderTarget* target)
+void EditorState::renderButtons(sf::RenderTarget* target)
 {
 	for (auto it : this->buttons)
 	{
