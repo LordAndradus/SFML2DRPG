@@ -163,7 +163,7 @@ void EditorState::render(sf::RenderTarget* target)
 {
 	if (!target) target = this->window;
 
-	this->renderButtons(target);
+	this->renderButtons(*target);
 
 	sf::Text mouseText;
 	mouseText.setPosition(sf::Vector2f(mousePosView.x + 20, mousePosView.y - 20));
@@ -177,9 +177,9 @@ void EditorState::render(sf::RenderTarget* target)
 	target->draw(mouseText);
 }
 
-void EditorState::renderButtons(sf::RenderTarget* target)
+void EditorState::renderButtons(sf::RenderTarget& target)
 {
-	for (auto it : this->buttons)
+	for (auto &it : this->buttons)
 	{
 		it.second->render(target);
 	}

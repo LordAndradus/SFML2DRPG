@@ -7,6 +7,7 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 
 	this->setPosition(x, y);
 
+	this->createHitboxComponent(this->sprite, 0, 0, (474/4), 172);
 	this->createMovementComponent(500.0f, 10.f, 4.f);
 	this->createAnimationComponent(textureSheet);
 
@@ -25,10 +26,17 @@ void Player::initVariables()
 
 }
 
+void Player::initComponents()
+{
+
+}
+
 void Player::update(const float& dt)
 {
 	this->movementComponent->update(dt);
 
 	if (this->movementComponent->idle()) this->animationComponent->play(dt, "IDLE_RIGHT");
 	else this->animationComponent->play(dt, "RUN_RIGHT");
+
+	this->hitboxComponent->update();
 }

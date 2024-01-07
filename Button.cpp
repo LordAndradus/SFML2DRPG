@@ -40,10 +40,10 @@ const bool Button::isActive() const
 }
 
 //Functions
-void Button::render(sf::RenderTarget* target)
+void Button::render(sf::RenderTarget& target)
 {
-	target->draw(this->shape);
-	target->draw(this->text);
+	target.draw(this->shape);
+	target.draw(this->text);
 }
 
 void Button::update(const sf::Vector2f mousePos)

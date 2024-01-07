@@ -182,7 +182,7 @@ void MainMenuState::render(sf::RenderTarget* target)
 
 	target->draw(this->background);
 
-	this->renderButtons(target);
+	this->renderButtons(*target);
 
 	sf::Text mouseText;
 	mouseText.setPosition(sf::Vector2f(mousePosView.x + 20, mousePosView.y - 20));
@@ -196,7 +196,7 @@ void MainMenuState::render(sf::RenderTarget* target)
 	target->draw(mouseText);
 }
 
-void MainMenuState::renderButtons(sf::RenderTarget* target)
+void MainMenuState::renderButtons(sf::RenderTarget& target)
 {
 	for (auto it : this->buttons)
 	{

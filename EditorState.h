@@ -16,7 +16,7 @@ public:
     void update(const float& dt);
     void updateButtons();
     void render(sf::RenderTarget* target = nullptr);
-    void renderButtons(sf::RenderTarget* target = nullptr);
+    void renderButtons(sf::RenderTarget& target);
 
 protected:
 

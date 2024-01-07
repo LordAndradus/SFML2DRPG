@@ -33,7 +33,7 @@ public:
 	const bool isActive() const;
 
 	//Functions
-	void render(sf::RenderTarget* target);
+	void render(sf::RenderTarget& target);
 	void update(const sf::Vector2f mousePos);
 
 protected:
